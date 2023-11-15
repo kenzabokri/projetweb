@@ -1,14 +1,12 @@
 <?php
-// Inclure le fichier de configuration de la base de données
-require_once 'C:\xampp\htdocs\projet\views\Back Office\config.php';
+require_once 'C:\xampp\htdocs\projetamine\views\Back Office\config.php';
 
-// Établir une connexion à la base de données
 $pdo = config::getConnexion();
 
-// Requête SQL pour sélectionner tous les événements
-$query = $pdo->prepare("SELECT * FROM event");
+
+$query = $pdo->prepare("SELECT * FROM class");
 $query->execute();
-$events = $query->fetchAll(PDO::FETCH_ASSOC);
+$classes = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -17,40 +15,39 @@ $events = $query->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Événements</title>
+    <title>Liste des classes</title>
+    <style> 
+body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff; 
+            background-image: url('../Back Office/logo_2.png'); 
+            background-size: cover;
+            background-position: center; 
+        }
+
+       
+    </style>
 </head>
 
 <body>
-    <h1>Liste des Événements</h1>
+    <h1>Liste des classes</h1>
 
-    <table border="1">
+    <table border="1" align="center">
         <tr>
-            <th>ID</th>
-            <th>Nom de l'événement</th>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Heure de début</th>
-            <th>Heure de fin</th>
-            <th>Capacité</th>
-            <th>Image</th>
-            <th>Type</th>
-            <th>Lieu</th>
-            <!-- Ajoutez d'autres colonnes en fonction de votre structure de base de données -->
+            <th>idclasse</th>
+            <th>nomclasse</th>
+            <th>nbpatient</th>
         </tr>
 
-        <?php foreach ($events as $event) : ?>
+        <?php foreach ($classes as $classe) : ?>
             <tr>
-                <td><?php echo $event['idevent']; ?></td>
-                <td><?php echo $event['nomevent']; ?></td>
-                <td><?php echo $event['date']; ?></td>
-                <td><?php echo $event['description']; ?></td>
-                <td><?php echo $event['heuredebut']; ?></td>
-                <td><?php echo $event['heurefin']; ?></td>
-                <td><?php echo $event['capacite']; ?></td>
-                <td><?php echo $event['image']; ?></td>
-                <td><?php echo $event['type']; ?></td>
-                <td><?php echo $event['lieu']; ?></td>
-                <!-- Ajoutez d'autres colonnes en fonction de votre structure de base de données -->
+                <td><?php echo $classe['idclasse']; ?></td>
+                <td><?php echo $classe['nomclasse']; ?></td>
+                <td><?php echo $classe['nbpatient']; ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

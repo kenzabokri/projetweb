@@ -80,8 +80,8 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <a href="./addevent.php"><h5 class="font-weight-bolder mb-0">
-                      add event
+                    <a href="./addclass.php"><h5 class="font-weight-bolder mb-0">
+                      add classe
                     </h5>
                   </a>
                   </div>
@@ -101,8 +101,8 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <a href="./updateevent.php"><h5 class="font-weight-bolder mb-0">
-                      update event
+                    <a href="./updateclasse.php"><h5 class="font-weight-bolder mb-0">
+                      update classe
                       
                     </h5>
                   </a>
@@ -123,8 +123,8 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <a href="./deleteevent.php"><p class="text-sm mb-0 text-capitalize font-weight-bold">
-                      delete event</p>
+                    <a href="./deleteclasse.php"><p class="text-sm mb-0 text-capitalize font-weight-bold">
+                      delete classe</p>
 
                     </h5>
                   </a>
@@ -145,7 +145,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <a href="./view.php"><p class="text-sm mb-0 text-capitalize font-weight-bold">view</p>
+                    <a href="../Back Office/view.php"><p class="text-sm mb-0 text-capitalize font-weight-bold">view</p>
                     </a>
                   </div>
                 </div>

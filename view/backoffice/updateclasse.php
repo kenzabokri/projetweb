@@ -1,94 +1,101 @@
-
 <?php
-require_once 'C:\xampp\htdocs\projetamine\views\Back Office\config.php';
 
-$pdo = config::getConnexion();
+include '../../controller/classec.php';
+include '../../model/classe.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idclasse_to_update = htmlspecialchars($_POST["idclasse_to_update"]);
 
-    $query = $pdo->prepare("SELECT * FROM class WHERE idclasse = :idclasse");
-    $query->bindParam(':idclasse', $idclasse_to_update);
-    $query->execute();
-    $classe = $query->fetch(PDO::FETCH_ASSOC);
+$error = "";
 
-    if (!$classe) {
-        echo "Classe non trouvée.";
-        exit();
+// create client
+$classe = null;
+
+// create an instance of the controller
+$classec = new classec();
+
+if (
+    isset($_POST["idclasse"]) &&
+    isset($_POST["nomclasse"]) &&
+    isset($_POST["nbpatient"]) 
+) {
+    if (
+        !empty($_POST["idclasse"]) &&
+        !empty($_POST['nomclasse']) &&
+        !empty($_POST["nbpatient"])
+    ) {
+        $classe = new classe(
+            $_POST['idclasse'],
+            $_POST['nomclasse'],
+            $_POST['nbpatient']
+        );
+        $classec->update($classe, $_POST["idclasse"]);
+
+        // Rediriger vers la page du formulaire
+        header('Location:listclasse.php');
+    } else {
+        $error = "Missing information";
     }
-
-    $nomclasse = htmlspecialchars($_POST["nomclasse"]);
-    $nbpatient = htmlspecialchars($_POST["nbpatient"]);
-
-    try {
-        $query = $pdo->prepare("UPDATE class SET nomclasse = :nomclasse, nbpatient = :nbpatient WHERE idclasse = :idclasse");
-        $query->bindParam(':idclasse', $idclasse_to_update);
-        $query->bindParam(':nomclasse', $nomclasse);
-        $query->bindParam(':nbpatient', $nbpatient);
-
-        $query->execute();
-
-        
-        header("Location: ./updateclasse.php?idclasse=$idclasse_to_update");
-        exit();
-    } catch (PDOException $e) {
-      
-        // die('Error: ' . $e->getMessage());
-    }
-}
+}    
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-<style> 
-body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #fff; 
-            background-image: url('../Back Office/logo_2.png'); 
-            background-size: cover; 
-            background-position: center; 
-        }
-
-       
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Display</title>
+    <script src="./verification.js"></script>
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
+<body>
+    <button><a href="listclasse.php">Back to list</a></button>
+    <hr>
 
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <form action="updateclasse.php" method="POST">
-                                <label for="idclasse_to_update">ID de la classe à modifier:</label>
-                                <input type="text" name="idclasse_to_update" id="idclasse_to_update" required>
-                                <br>
+    <div id="error">
+        <?php echo $error; ?>
+    </div>
 
-                                <label for="nomclasse">Nom de la classe:</label>
-                                <input type="text" name="nomclasse" id="nomclasse" required>
-                                <br>
+    <?php
+    if (isset($_POST['idclasse'])) {
+        $classe = $classec->show($_POST['idclasse']);
 
-                                <label for="nbpatient">Nombre de patients:</label>
-                                <input type="text" name="nbpatient" id="nbpatient" required>
-                                <br>
+    ?>
 
-                                <input type="submit" value="Enregistrer">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <form action="" method="POST" onsubmit="return validateForm();">
+            <table border="1" align="center">
+                <tr>
+                    <td>
+                        <label for="idclasse">Id Classe:
+                        </label>
+                    </td>
+                    <td><input type="text" name="idclasse" id="idclasse" value="<?php echo $classe['idclasse']; ?>" maxlength="20">
+                </tr></td>
+                <tr>
+                    <td>
+                        <label for="nomclasse">nom de la classe:</label>
+                    </td>
+                    <td><input type="text" name="nomclasse" id="nomclasse" value="<?php echo $classe['nomclasse']; ?>" maxlength="20"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="nbpatient">nombre de patient:</label>
+                    </td>
+                    <td><input type="text" name="nbpatient" id="nbpatient" value="<?php echo $classe['nbpatient']; ?>" maxlength="20"></td>
+                </tr>
 
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Update">
+                    </td>
+                    <td>
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    <?php
+    }
+    ?>
 </body>
 
 </html>

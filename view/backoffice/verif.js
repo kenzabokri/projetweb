@@ -1,32 +1,31 @@
-function validateEventForm() {
-    var nomevent = document.getElementById('nomevent').value.trim();
-    var capacite = document.getElementById('capacite').value.trim();
-    var lieu = document.getElementById('lieu').value.trim();
-    var type = document.getElementById('type').value.trim();
+// Fonction de validation
+function validateForm() {
+    // Récupérer les valeurs des champs
+    var seance = document.getElementById('seance').value;
+    var dateDebut = document.getElementById('dateDebut').value;
+    var dateFin = document.getElementById('dateFin').value;
 
-    // Vérification du nomevent, lieu, et type (caractères uniquement)
-    var stringRegex = /^[a-zA-Z]+$/;
+    // Expression régulière pour vérifier si seance contient uniquement des lettres alphabétiques
+    var seanceRegex = /^[a-zA-Z]*$/;
 
-    if (nomevent !== '' && !stringRegex.test(nomevent)) {
-        alert('Le nomevent doit contenir uniquement des caractères alphabétiques.');
+    // Vérifier si seance est valide
+    if (!seanceRegex.test(seance)) {
+        alert('La séance doit contenir uniquement des lettres alphabétiques.');
         return false;
     }
 
-    if (lieu !== '' && !stringRegex.test(lieu)) {
-        alert('Le lieu doit contenir uniquement des caractères alphabétiques.');
+    // Vérifier si dateDebut est un nombre positif ou égal à 0
+    if (isNaN(dateDebut) || dateDebut < 0) {
+        alert('La date de début doit être un nombre positif ou égal à 0.');
         return false;
     }
 
-    if (type !== '' && !stringRegex.test(type)) {
-        alert('Le type doit contenir uniquement des caractères alphabétiques.');
+    // Vérifier si dateFin est un entier positif
+    if (isNaN(dateFin) || dateFin < 0 || dateFin % 1 !== 0) {
+        alert('La date de fin doit être un entier positif.');
         return false;
     }
 
-    // Vérification de la capacite (nombre supérieur à 0)
-    if (capacite !== '' && (isNaN(capacite) || capacite <= 0)) {
-        alert('Veuillez saisir un nombre valide et supérieur à 0 pour la capacité.');
-        return false;
-    }
-
+    // Si tout est valide, le formulaire peut être soumis
     return true;
 }

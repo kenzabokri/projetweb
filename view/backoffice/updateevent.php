@@ -1,128 +1,190 @@
-<!-- updateevent.php -->
-
 <?php
-require_once 'C:\xampp\htdocs\projet\views\Back Office\config.php';
-$pdo = config::getConnexion();
 
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idevent_to_update = htmlspecialchars($_POST["idevent_to_update"]);
+include '../../Controller/evente.php';
+include '../../model/event.php';
 
-    // Récupérer les informations actuelles de l'événement
-    $query = $pdo->prepare("SELECT * FROM event WHERE idevent = :idevent");
-    $query->bindParam(':idevent', $idevent_to_update);
-    $query->execute();
-    $event = $query->fetch(PDO::FETCH_ASSOC);
+$error = "";
+$event = null;
+$eventc = new eventc();
 
-    // Vérifier si l'événement existe
-    if (!$event) {
-        echo "Événement non trouvé.";
-        exit();
-    }
-
-    $nomevent = htmlspecialchars($_POST["nomevent"]);
-    $date = htmlspecialchars($_POST["date"]);
-    $description = htmlspecialchars($_POST["description"]);
-    $heuredebut = htmlspecialchars($_POST["heuredebut"]);
-    $heurefin = htmlspecialchars($_POST["heurefin"]);
-    $capacite = htmlspecialchars($_POST["capacite"]);
-    $image = htmlspecialchars($_POST["image"]);
-    $type = htmlspecialchars($_POST["type"]);
-    $lieu = htmlspecialchars($_POST["lieu"]);
-
-    try {
-        // Mettre à jour les informations dans la table 'event'
-        $query = $pdo->prepare("UPDATE event SET nomevent = :nomevent, date = :date, description = :description, heuredebut = :heuredebut, heurefin = :heurefin, capacite = :capacite, image = :image, type = :type, lieu = :lieu WHERE idevent = :idevent");
-        $query->bindParam(':idevent', $idevent_to_update);
-        $query->bindParam(':nomevent', $nomevent);
-        $query->bindParam(':date', $date);
-        $query->bindParam(':description', $description);
-        $query->bindParam(':heuredebut', $heuredebut);
-        $query->bindParam(':heurefin', $heurefin);
-        $query->bindParam(':capacite', $capacite);
-        $query->bindParam(':image', $image);
-        $query->bindParam(':type', $type);
-        $query->bindParam(':lieu', $lieu);
-
-        $query->execute();
-
-        // Redirection après une mise à jour réussie
-        header("Location: ./updateevent.php?idevent=$idevent_to_update");
-        exit();
-    } catch (PDOException $e) {
-        // Gérer les erreurs de la base de données
-        // die('Error: ' . $e->getMessage());
+if (
+    isset($_POST["idevent"]) &&
+    isset($_POST["nomevent"]) &&
+    isset($_POST["description"]) &&
+    isset($_POST["lieu"]) &&
+    isset($_POST["capacite"]) &&
+    isset($_POST["heuredebut"]) &&
+    isset($_POST["heurefin"]) &&
+    isset($_POST["image"]) &&
+    isset($_POST["date"])&&
+    isset($_POST["idtype"])
+    ) {
+    if (
+        !empty($_POST['idevent']) &&
+        !empty($_POST['nomevent']) &&
+        !empty($_POST["description"]) &&
+        !empty($_POST["lieu"]) &&
+        !empty($_POST['capacite']) &&
+        !empty($_POST["heuredebut"]) &&
+        !empty($_POST["heurefin"]) &&
+        !empty($_POST["image"]) &&
+        !empty($_POST["date"])&&
+        !empty($_POST["idtype"])
+    ) {
+        $event = new event(
+            $_POST['idevent'],
+            $_POST['nomevent'],
+            new DateTime($_POST['date']),
+            $_POST['description'],
+            $_POST['heuredebut'],
+            $_POST['heurefin'],
+            
+            
+            $_POST['capacite'],
+           
+            $_POST['image'],
+            $_POST['lieu'],
+            $_POST['idtype']
+        );
+        $eventc->update($event, $_POST["idevent"]);
+        header('Location:listevent.php');
+    } else {
+        $error = "Missing information";
     }
 }
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <!-- ... (autres balises meta et lien) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin Display</title>
+    <style>
+body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            margin: 200;
+            background-color: #fff; 
+            background-image: url('ba.png'); 
+            background-size: cover; 
+            background-position: center; 
+        }
+    </style>
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
-    <!-- ... (autres balises HTML) ... -->
+<body>
+    <button><a href="./listevent.php">Back to list</a></button>
+    <hr>
 
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <form action="updateevent.php" method="POST">
-                                <label for="idevent_to_update">ID de l'event à modifier:</label>
-                                <input type="text" name="idevent_to_update" id="idevent_to_update" required>
-                                <br>
+    <div id="error">
+        <?php echo $error; ?>
+    </div>
 
-                                <label for="nomevent">Nom event:</label>
-                                <input type="text" name="nomevent" id="nomevent"  required>
-                                <br>
+    <?php
+    if (isset($_POST['idevent'])) {
+        $event = $eventc->show($_POST['idevent']);
+    ?>
 
-                                <label for="date">Date:</label>
-                                <input type="text" name="date" id="date"  required>
-                                <br>
-                            
-                                <label for="description">Description event:</label>
-                                <input type="text" name="description" id="description"  required>
-                                <br>
-
-                                <label for="heuredebut">Heure début:</label>
-                                <input type="text" name="heuredebut" id="heuredebut"  required>
-                                <br>
-
-                                <label for="heurefin">Heure fin:</label>
-                                <input type="text" name="heurefin" id="heurefin"  required>
-                                <br>
-
-                                <label for="capacite">Capacité:</label>
-                                <input type="text" name="capacite" id="capacite"  required>
-                                <br>
-                            
-                                <label for="image">Image:</label>
-                                <input type="text" name="image" id="image"  required>
-                                <br>
-
-                                <label for="type">Type:</label>
-                                <input type="text" name="type" id="type"  required>
-                                <br>
-
-                                <label for="lieu">Lieu:</label>
-                                <input type="text" name="lieu" id="lieu" required>
-                                <br>
-
-                                <input type="submit" value="Enregistrer">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- ... (autres balises script) ... -->
+<form action="" method="POST" onsubmit="return validateForm();">
+            <table border="1" align="center">
+                <tr>
+                    <td>
+                        <label for="idevent">id de l'événement:
+                        </label>
+                    </td>
+                    <td><input type="text" name="idevent" id="idevent" value="<?php echo $event['idevent']; ?>" maxlength="20"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="nomevent">nom événement:
+                        </label>
+                    </td>
+                    <td><input type="text" name="nomevent" id="nomevent" value="<?php echo $event['nomevent']; ?>" maxlength="20"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="description">Description:
+                        </label>
+                    </td>
+                    <td><input type="text" name="description" id="description" value="<?php echo $event['description']; ?>" maxlength="300"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="lieu">Lieu:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="lieu" value="<?php echo $event['lieu']; ?>" id="lieu">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="date">Date:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="date" name="date" id="date" value="<?php echo $event['date']; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="heuredebut">heure début:
+                        </label>
+                    </td>
+                    <td><input type="text" name="heuredebut" id="heuredebut" value="<?php echo $event['heuredebut']; ?>"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="heurefin">heure fin:
+                        </label>
+                    </td>
+                    <td><input type="text" name="heurefin" id="heurefin" value="<?php echo $event['heurefin']; ?>"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="capacite">Capacité:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="capacite" id="capacite" value="<?php echo $event['capacite']; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="image">Image:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="image" id="image" value="<?php echo $event['image']; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="idtype">idtype:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="idtype" id="idtype" value="<?php echo $event['idtype']; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Update">
+                    </td>
+                    <td>
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <script src="../../model/verif.js"></script>
+    <?php
+    }
+    ?>
 </body>
 
 </html>

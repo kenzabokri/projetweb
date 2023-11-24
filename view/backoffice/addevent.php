@@ -1,74 +1,149 @@
+<?php
+include '../../Controller/evente.php';
+include '../../model/event.php';
+
+$error = "";
+
+// create client
+$event = null;
+
+// create an instance of the controller
+$eventc = new eventc();
+if (
+    isset($_POST["nomevent"]) &&
+    isset($_POST["description"]) &&
+    isset($_POST["date"]) &&
+    isset($_POST["lieu"]) &&
+    isset($_POST["capacite"]) &&
+    isset($_POST["heuredebut"]) &&
+    isset($_POST["heurefin"]) &&
+    isset($_POST["image"]) &&
+    isset($_POST["idtype"])
+) {
+    if (
+        !empty($_POST['nomevent']) &&
+        !empty($_POST["description"]) &&
+        !empty($_POST["date"]) &&
+        !empty($_POST["lieu"]) &&
+        !empty($_POST['capacite']) &&
+        !empty($_POST["heuredebut"]) &&
+        !empty($_POST["heurefin"]) &&
+        !empty($_POST["image"]) &&
+        !empty($_POST["idtype"])
+    ) {
+        $event = new event(
+            null,
+            $_POST['nomevent'],
+            $_POST['date'],
+            $_POST['description'],
+            $_POST['heuredebut'],
+            $_POST['heurefin'],
+            $_POST['capacite'],
+            $_POST['image'],
+            $_POST['lieu'],
+            $_POST['idtype']
+        );
+
+        $eventc->add($event);
+        header('Location:listevent.php');
+    } else {
+        $error = "Missing information";
+        echo $error; // Ajout de message pour le débogage
+    }
+}
+
+?>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="verif.js" defer></script>
-    <title>Event</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            margin: 200;
+            background-color: #fff;
+            background-image: url('ba.png');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <title>admin Display</title>
 </head>
 
 <body>
-    <a href="listevent.php">Back to list </a>
+    <a href="./listevent.php">Back to list </a>
     <hr>
 
-    <form action="addevent.php" method="POST" onsubmit="return validateEventForm()">
+    <div id="error">
+        <?php echo $error; ?>
+    </div>
+
+    <form action="" method="POST" onsubmit="return validateForm();">
         <table border="1" align="center">
 
             <tr>
                 <td>
-                    <label for="nomevent">Nomevent:
+                    <label for="nomevent">nomevent:
                     </label>
                 </td>
-                <td><input type="text" name="nomevent" id="nomevent" maxlength="20" required oninput="validateEventForm()"></td>
+                <td><input type="text" name="nomevent" id="nomevent" maxlength="20"></td>
             </tr>
             <tr>
                 <td>
-                    <label for="date">Date:
+                    <label for="description">description:
                     </label>
                 </td>
-                <td>
-                    <input type="date" id="date" name="date" required min="2024-01-01" max="2024-12-31">
-                </td>
+                <td><input type="text" name="description" id="description" maxlength="300"></td>
             </tr>
             <tr>
                 <td>
-                    <label for="description">Description:
+                    <label for="lieu">lieu:
                     </label>
                 </td>
                 <td>
-                    <input type="text" name="description" id="description">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="heuredebut">Heure début:
-                    </label>
-                </td>
-                <td>
-                    <input type="text" name="heuredebut" id="heuredebut">
+                    <input type="text" name="lieu" id="lieu">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="heurefin">Heure fin:
+                    <label for="date">Date :
                     </label>
                 </td>
                 <td>
-                    <input type="text" name="heurefin" id="heurefin">
+                    <input type="date" name="date" id="date">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="capacite">Capacite:
+                    <label for="heuredebut">heuredebut:
+                    </label>
+                </td>
+                <td><input type="text" name="heuredebut" id="heuredebut"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="heurefin">heurefin:
+                    </label>
+                </td>
+                <td><input type="text" name="heurefin" id="heurefin"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="capacite">capacite:
                     </label>
                 </td>
                 <td>
-                    <input type="text" name="capacite" id="capacite" required oninput="validateEventForm()">
+                    <input type="text" name="capacite" id="capacite">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="image">Image:
+                    <label for="image">image:
                     </label>
                 </td>
                 <td>
@@ -76,79 +151,29 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <label for="type">Type:
-                    </label>
-                </td>
-                <td>
-                    <input type="text" name="type" id="type" required oninput="validateEventForm()">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lieu">Lieu:
-                    </label>
-                </td>
-                <td>
-                    <input type="text" name="lieu" id="lieu" required oninput="validateEventForm()">
-                </td>
-            </tr>
-
+    <td>
+        <label for="idtype">Type d'événement:</label>
+    </td>
+    <td>
+        <select name="idtype" id="idtype">
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+        </select>
+    </td>
+</tr>
             <tr align="center">
                 <td>
                     <input type="submit" value="Save">
                 </td>
+                <td>
+                    <input type="reset" value="Reset">
+                </td>
             </tr>
         </table>
     </form>
+    <script src="../../model/verif.js"></script>
 </body>
 
-</html>
-
-<?php
-require_once 'C:\xampp\htdocs\projet\views\Back Office\config.php';
-
-$pdo = config::getConnexion();
-
-
-
-
-
-   
-    $nomevent = htmlspecialchars($_POST["nomevent"]);
-    $date = htmlspecialchars($_POST["date"]);
-    $description = htmlspecialchars($_POST["description"]);
-    $heuredebut = htmlspecialchars($_POST["heuredebut"]);
-    $heurefin = htmlspecialchars($_POST["heurefin"]);
-    $capacite = htmlspecialchars($_POST["capacite"]);
-    $image = htmlspecialchars($_POST["image"]);
-    $type = htmlspecialchars($_POST["type"]);
-    $lieu = htmlspecialchars($_POST["lieu"]);
-   
-
-    try {
-        // Insert into Event table
-        $query = $pdo->prepare("INSERT INTO event (nomevent, date , description, heuredebut, heurefin, capacite, image, type, lieu) VALUES ( :nomevent, :date, :description, :heuredebut, :heurefin, :capacite, :image, :type, :lieu)");
-        $query->bindParam(':nomevent', $nomevent);
-        $query->bindParam(':date', $date);
-        $query->bindParam(':description', $description);
-        $query->bindParam(':heuredebut', $heuredebut);
-        $query->bindParam(':heurefin', $heurefin);
-        $query->bindParam(':capacite', $capacite);
-        $query->bindParam(':image', $image);
-        $query->bindParam(':type', $type);
-        $query->bindParam(':lieu', $lieu);
-        
-        $query->execute();
-
-        
-
-        // Redirect after successful submission
-        header("Location: ./addevent.php");
-        exit();
-    } catch (PDOException $e) {
-        // Handle database errors
-        //die('Error: ' . $e->getMessage());
-    }
-
-?>
+</html>          

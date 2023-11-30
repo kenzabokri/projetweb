@@ -51,6 +51,8 @@ $tab = $e->list();
         <h1> <a href="./addtype.php" class="item ">ADD type</a></h1>
         <div class="seperator"></div>
         <h1> <a href="./searchevent.php" class="item ">search event</a></h1>
+        <h1> <a href="./listformulaire.php" class="item ">form</a></h1>
+        <h1> <a href="./statistique.php" class="item ">stat</a></h1>
         </div>
         <div class="log-out">LOG OUT</div>
       </div>

@@ -34,5 +34,6 @@
          Rejoignez-nous pour célébrer le pouvoir de l'art dans le processus de guérison!</p></h1></div>
     </div>
     <h1><a href="./listevent.php">Détails</a></h1>
+    <h1><a href="../../views/Front Office/addformulaire.php">remplir un formulaire</a></h1>
 </body>
 </html>

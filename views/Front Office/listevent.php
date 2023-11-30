@@ -13,6 +13,7 @@ $tab = $e->list();
     <link rel="stylesheet" href="../../model/style.css">
     <link rel="stylesheet" href="../../model/icofont.css">
     <title>events</title>
+    
    <!-- <style>
         body {
             display: flex;
@@ -71,7 +72,6 @@ body {
             <th>Capacité</th>
             <th>Image</th>
             <th>Lieu</th>
-            <th>type</th>
     </tr>
 
 
@@ -92,7 +92,6 @@ body {
                 <td><?= $event['capacite']; ?></td>
                 <td><?= $event['image']; ?></td>
                 <td><?= $event['lieu']; ?></td>
-                <td><?= $event['idtype']; ?></td>
         </tr>
     <?php
     }

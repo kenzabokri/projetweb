@@ -45,7 +45,8 @@ body {
         <h2>Events correspondants au type sélectionné:</h2>
         <ul>
             <?php foreach ($list as $event) { ?>
-               <h2> <li><?= $event['nomevent'] ?> - <?= $event['lieu'] ?></li></h2>
+               <h2><li>nom de l'événement:   <?= $event['nomevent'] ?></li></h2>
+               <h2> <li>lieu de l'événement:  <?= $event['lieu'] ?></li></h2>
             <?php } ?>
         </ul>
     <?php } ?>

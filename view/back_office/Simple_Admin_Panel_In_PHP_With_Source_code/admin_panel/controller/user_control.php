@@ -17,10 +17,6 @@
         {
           
             try {
-                $query = $db->prepare("DELETE FROM session WHERE utilisateur = :userId");
-                $query->bindParam(':userId', $userIdToDelete);
-                $query->execute();
-
                 $query = $db->prepare("DELETE FROM users WHERE user_id = :userId");
                 $query->bindParam(':userId', $userIdToDelete);
                 $query->execute();
@@ -66,12 +62,13 @@
 
         public static function update_user($db,$user,$id)
         {
-            $first_name=$user->get_first_name();
-            $last_name=$user->get_last_name();
-            $email=$user->get_email();
-            $role=$user->get_role();
-            $password=$user->get_password();
             try {
+                
+                $first_name=$user->get_first_name();
+                $last_name=$user->get_last_name();
+                $email=$user->get_email();
+                $role=$user->get_role();
+                $password=$user->get_password();
                 $query = $db->prepare("
                     UPDATE users
                     SET 
@@ -90,7 +87,8 @@
                     AND 
                     '$last_name'  != ''
                 ");
-                $query3 = $db->prepare("
+                
+                $query2 = $db->prepare("
                     UPDATE users
                     SET 
                     email = '$email' 
@@ -99,7 +97,7 @@
                     AND 
                     '$email' != ''
                 ");
-                $query4 = $db->prepare("
+                $query3 = $db->prepare("
                     UPDATE users
                     SET 
                     role = '$role' 
@@ -108,7 +106,7 @@
                     AND 
                     '$role' != ''
                 ");
-                $query6 = $db->prepare("
+                $query4 = $db->prepare("
                     UPDATE users
                     SET 
                     password = '$password' 
@@ -120,11 +118,9 @@
         
                 $query->execute();
                 $query1->execute();
-                
+                $query2->execute();
                 $query3->execute();
                 $query4->execute();
-               
-                $query6->execute();
             } catch (Exception $e) {
                 echo "ERROR: " . $e->getMessage();
             }

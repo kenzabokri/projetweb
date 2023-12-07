@@ -42,6 +42,27 @@ class InscriptionC
             die('Error:' . $e->getMessage());
         }
     }
+    public function listInscriptionNew()
+{
+    $sql ="SELECT i.id_inscri, u.username as user, c.nom_cours, p.longueur as periode
+    FROM inscription i
+    JOIN user u ON i.user = u.id_user
+    JOIN cours c ON i.cours = c.id_cours
+    JOIN periode p ON i.periode = p.id_periode";
+
+    $db = conf::getConnexion();
+
+    try {
+        $liste = $db->query($sql);
+        return $liste;
+    } catch (Exception $e) {
+        die('Error:' . $e->getMessage());
+    }
+}
+
+    
+
+
 
     public function listInscription()
     {

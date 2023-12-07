@@ -64,6 +64,7 @@ $tab = $i->listInscription();
         <div class="sub-title">HEJER'S PANEL</div>
         <div class="main-title">Toutes les inscri</div>
         <div class="seperator"></div>
+        <button onclick="showChart()">Show Chart</button>
 
         <style>
   .scrollable-table {
@@ -103,12 +104,21 @@ $tab = $i->listInscription();
   <?php
     }
     ?>
+     
 </table>
  </div>
-        
+
+
 </body>
 <!-- partial -->
   <script  src="./script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+function showChart() {
+    window.location.href = 'chart_page.php'; // Replace with the actual URL of your chart page
+}
+</script>
+
 
 </body>
 </html>

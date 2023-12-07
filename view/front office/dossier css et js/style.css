@@ -649,4 +649,17 @@ img {
     
     justify-content: center;
     align-items: center; }
+    .contact .inputboite img {
+        width: 200px; /* adjust size as needed */
+        height: 170px; /* adjust size as needed */
+      }
+      
+      .contact .btn-reserve {
+        font-size: 0.8em; /* adjust font size as needed */
+      }
+      .contact .btn-reserve {
+        display: inline-block; /* align buttons in a line */
+        margin: 5px; /* add spacing between buttons */
+      }
+      
   

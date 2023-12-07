@@ -13,10 +13,9 @@ $user = $userC->listUser();
 $periodeC = new InscriptionC();  // Fix: Use the correct object
 $periode = $periodeC->listPeriode();  // Fix: Use the correct object
 
-// Check for successful payment
-var_dump($_POST);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    var_dump($_POST);
+    
     if (
         isset($_POST["user"]) &&
         isset($_POST["cours"]) &&
@@ -47,6 +46,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
+
+if (isset($_POST["g-recaptcha-response"]) && !empty($_POST["g-recaptcha-response"])) {
+  $recaptchaResponse = $_POST["g-recaptcha-response"];
+  $secretKey = "6LfU9iYpAAAAAL1rmn03_wsGS-7iTV_DSErH_Ocd"; // Replace with your actual reCAPTCHA secret key
+
+  $recaptchaUrl = "https://www.google.com/recaptcha/api/siteverify";
+  $recaptchaData = [
+      'secret' => $secretKey,
+      'response' => $recaptchaResponse,
+  ];
+
+  $recaptchaOptions = [
+      'http' => [
+          'method' => 'POST',
+          'header' => 'Content-type: application/x-www-form-urlencoded',
+          'content' => http_build_query($recaptchaData),
+      ],
+  ];
+
+  $recaptchaContext = stream_context_create($recaptchaOptions);
+  $recaptchaResult = json_decode(file_get_contents($recaptchaUrl, false, $recaptchaContext));
+
+  if (!$recaptchaResult->success) {
+      $error = "reCAPTCHA verification failed";
+  } else {
+      // Proceed with the rest of your form processing
+      // ...
+  }
+}
 ?>
 
 
@@ -57,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <title>SIGN UP for a course</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 <link rel="stylesheet" href="./styleinscri.css">
-
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -89,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
       <h4>Periode </h4>
       <p class="select" >
-        <select class="budget" name="periode">
+        <select class="budget" name="periode" onchange="updatePaymentAmount()" >
           <?php
             if ($periode->rowCount() > 0) {
             // Il y a des résultats
@@ -110,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
    <div>
     <h4>Cours</h4>
     <p class="select">
-        <select class="budget" name="cours">
+        <select class="budget" name="cours" onchange="updatePaymentAmount()">
             <?php
             if (empty($cours)) {
                 echo "<option value=''>No cours found</option>";
@@ -127,76 +155,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    <h4>Les frais vont etre concidérés selon la periode choisie </h4>
-    <div class="payment-section">
-      <h2>Payment Information</h2>
-
-      <div>
-        <label for="cardholderName">Cardholder's Name</label>
-        <input type="text" id="cardholderName" v-model="payment.cardholderName" placeholder="Enter the full name as it appears on the card">
-      </div>
-
-      <div>
-        <label for="cardNumber">Card Number</label>
-        <input type="text" id="cardNumber" v-model="payment.cardNumber" placeholder="Enter the 16-digit card number">
-      </div>
-
-      <div>
-        <label for="expirationDate">Expiration Date</label>
-        <input type="date" id="expirationDate" v-model="payment.expirationDate">
-      </div>
-
-      <div>
-        <label for="cvv">CVV</label>
-        <input type="password" id="cvv" v-model="payment.cvv" placeholder="Enter the 3 or 4-digit security code">
-      </div>
-    </div>
-
     <div>
+    <div class="g-recaptcha" data-sitekey="6LfU9iYpAAAAADOOSz5hnO0pEkhW5m-68qDNa4VP"></div>
     <input type="submit" class="your-button-style" onclick="return validateForm()" value="Sign Up">
     </div>
 
   </fieldset>
 </form>
 
- <script>
-    function validateForm() {
-        // Validation du choix du cours
 
-        // Validation du nom de la carte sans chiffre
-        const cardholderName = document.getElementById('cardholderName').value;
-        if (/\d/.test(cardholderName)) {
-            alert('Le nom de la carte ne doit pas contenir de chiffres.');
-            return false; // Prevent form submission
-        }
-
-        // Validation du card number (16 chiffres)
-        const cardNumber = document.getElementById('cardNumber').value;
-        if (!/^\d{16}$/.test(cardNumber)) {
-            alert('Le numéro de carte doit être composé de 16 chiffres.');
-            return false; // Prevent form submission
-        }
-
-        // Validation de la date d'expiration (1er janvier ou ultérieur)
-        const expirationDate = document.getElementById('expirationDate').value;
-        const currentDate = new Date();
-        const inputDate = new Date(expirationDate + 'T00:00:00');
-        if (inputDate <= currentDate) {
-            alert('La date d\'expiration doit être ultérieure à la date actuelle.');
-            return false; // Prevent form submission
-        }
-
-        // Validation du CVV (3 à 4 chiffres)
-        const cvv = document.getElementById('cvv').value;
-        if (!/^\d{3,4}$/.test(cvv)) {
-            alert('Le CVV doit être composé de 3 à 4 chiffres.');
-            return false; // Prevent form submission
-        }
-
-        // If all validations pass, allow the form to submit
-        return true;
-    }
-</script> 
 
 </body>
 </html>

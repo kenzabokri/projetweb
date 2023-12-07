@@ -2,22 +2,19 @@
 require '../../config.php';
 $sql = "SELECT * FROM categories";
 $db = config::getConnexion();
- 
+
 try {
     $imageList = $db->query($sql);
 } catch (Exception $e) {
     die('Error:' . $e->getMessage());
 }
+
 $sql = "SELECT * FROM cours";
-$db = config::getConnexion();
- 
 try {
     $cours = $db->query($sql);
 } catch (Exception $e) {
     die('Error:' . $e->getMessage());
 }
-
-
 ?>
 
 
@@ -42,10 +39,10 @@ try {
 
     <div class="search-container">
     <input type="text" id="search-input" placeholder="Search...">
-    <button type="button" id="search-button">Search</button>
+    <button  type="button" id="search-button">Search</button>
 </div>
     <ul class="navbar">
-    <a href="./inscri_form.php" class="btn1">Ajouter un cours au panier</a>
+    <a href="./inscri_form.php" id='submit-btn' class="btn1">Ajouter un cours au panier</a>
     </ul>
 </header>
 <section class="banniere" id="banniere">
@@ -72,48 +69,39 @@ try {
     </div>
 </section>
 
-<!-- debut dont touch -->
-<section class="contact" id="contac">
-    <div class="contactform"> 
-        <div class="inputboite" style="text-align: center;"> <!-- Add text-align: center; style -->
             <div class="col50">
                 <h2 class="titre-texte"><span>O</span>ur lessons</h2>
             </div>
+<section class="contact" id="contac">
+    
+        <div class="inputboite" style="text-align: center;"> <!-- Add text-align: center; style -->
+            
 
             <?php
                  if ($imageList->rowCount() > 0) {
                     $imageList = $imageList->fetchAll(PDO::FETCH_ASSOC);
     
                     foreach ($imageList as $image) {
-                        echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-                        echo "<hr>"; 
-                        echo "<hr>";
-                        echo "<hr>"; 
-                        echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-                        echo "<button class='btn-reserve' id='submit-btn'>{$image['nom_cat']}</button>";
                         echo "<img src='./image/{$image['url_cat']}' alt='Image'>";
-                        
+                    
                         // Fetch and display courses for the current category
                         $coursesSql = "SELECT * FROM cours WHERE categorie = :id_cat";
                         $coursesQuery = $db->prepare($coursesSql);
                         $coursesQuery->bindParam(':id_cat', $image['id_cat']);
                         $coursesQuery->execute();
                         $courses = $coursesQuery->fetchAll(PDO::FETCH_ASSOC);
-    
-                        foreach ($courses as $course) {
-                            echo "<hr>";
-                            echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-                            echo "<button class='btn-reserve' id='submit-btn1'>{$course['nom_cours']} - {$course['prix_cours']} DT</button>";
-                            
-                            echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-                        }
+                    
+                        if (!empty($courses)) {
+                            $courseNames = array_column($courses, 'nom_cours');
+                            $allCourses = implode("       / ", $courseNames);
+                    
+                            echo "<button class='btn-reserve' id='submit-btn1'>{$allCourses}</button>";
+                        } 
                     }
-                } else {
-                    echo "<p>No data available.</p>";
                 }
                 ?>         
             </div>
-        </div>
+        
     </section>
 
 
@@ -172,8 +160,14 @@ try {
         #search-button:hover {
             background-color: #fb911f;
         }
+       .inputboite {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
 
-       
+        .col50 {
+            display: inline-block;
+        }
     </style>
     <script>
     document.addEventListener('DOMContentLoaded', function () {

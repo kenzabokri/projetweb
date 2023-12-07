@@ -102,7 +102,7 @@ if (
             <input type="text" name="nom_cat" id="nom_cat" value="<?php echo is_array($categorie) ? $categorie['nom_cat'] : ''; ?>" >
             </div>
                 <label for="url">url:</label>
-           <input type="text" name="url_cat" id="url_cat" value="<?php echo is_array($categorie) ? $categorie['url_cat'] : ''; ?>" >
+           <input type="file" name="url_cat" id="url_cat" value="<?php echo is_array($categorie) ? $categorie['url_cat'] : ''; ?>" >
         
             <div>
                 <input type="submit" value="Update category">

@@ -84,7 +84,7 @@ if (
                     </div>
                 <div>
                 <label for="prenom">Url image Cat :</label>
-                <input type="text" id="url" name="url_cat" />
+                <input type="file" id="url" name="url_cat" />
                 </div>
                 <div>
                 <input type="submit" value="Save">

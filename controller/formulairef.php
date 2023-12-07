@@ -33,7 +33,7 @@ class formulairef
             'ticket' => $formulaire->getticket(),
             'role' => $formulaire->getrole(),
             'nome' => $formulaire->getnome(),
-            'numero' => $formulaire->getnumero()
+            'numero' => $formulaire->getnumero(),
         ]);
 
         //echo "personne added successfully"; // Ajout de message pour le débogage

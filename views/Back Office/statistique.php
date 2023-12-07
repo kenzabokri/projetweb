@@ -25,26 +25,17 @@ foreach ($tab as $formulaire) {
         $statistiquesEvenements[$evenement]++;
     }
 }
-echo "<h2>Statistiques des personnes</h2>";
-echo "<table border='1' align='center'>";
-echo "<tr><th>Catégorie</th><th>Nombre</th><th>Pourcentage</th></tr>";
-$totalPersonnes = $nombreVisiteurs + $nombreParticipants;
-$pourcentageVisiteurs = ($totalPersonnes > 0) ? number_format(($nombreVisiteurs / $totalPersonnes) * 100, 1) : 0;
-$pourcentageParticipants = ($totalPersonnes > 0) ? number_format(($nombreParticipants / $totalPersonnes) * 100, 1) : 0;
-echo "<tr><td>Nombre de visiteurs</td><td>$nombreVisiteurs</td><td>$pourcentageVisiteurs%</td></tr>";
-echo "<tr><td>Nombre de participants</td><td>$nombreParticipants</td><td>$pourcentageParticipants%</td></tr>";
-echo "</table>";
 
-echo "<h2>Statistiques des événements</h2>";
-echo "<table border='1' aligh='center'>";
-echo "<tr><th>Événement</th><th>Nombre de participants</th><th>Pourcentage par rapport au total</th></tr>";
+// Création d'un tableau pour les données des événements
+$labelsEvenements = [];
+$dataEvenements = [];
+
 foreach ($statistiquesEvenements as $evenement => $nombreParticipants) {
-    $pourcentageEvenement = ($totalPersonnes > 0) ? number_format(($nombreParticipants / $totalPersonnes) * 100, 1) : 0;
-    echo "<tr><td>$evenement</td><td>$nombreParticipants</td><td>$pourcentageEvenement%</td></tr>";
+    $labelsEvenements[] = $evenement;
+    $dataEvenements[] = $nombreParticipants;
 }
-echo "</table>";
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,5 +56,78 @@ body {
         }
     </style>
 </head>
+<body>
+  <div>
+    <canvas id="personnesChart"></canvas>
+  </div>
 
+  <div>
+    <canvas id="evenementsChart"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const ctxPersonnes = document.getElementById('personnesChart');
+    const ctxEvenements = document.getElementById('evenementsChart');
+
+    // Graphique Personnes (Visiteurs et Participants)
+    new Chart(ctxPersonnes, {
+      type: 'bar',
+      data: {
+        labels: ['Nombre de visiteurs', 'Nombre de participants'],
+        datasets: [
+          {
+            label: 'Visiteurs',
+            data: [<?php echo $nombreVisiteurs; ?>, 0],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Participants',
+            data: [0, <?php echo $nombreParticipants; ?>],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          },
+        ]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // Graphique Événements
+    new Chart(ctxEvenements, {
+      type: 'bar',
+      data: {
+        labels: <?php echo json_encode($labelsEvenements); ?>,
+        datasets: [{
+          label: 'Statistiques des événements',
+          data: <?php echo json_encode($dataEvenements); ?>,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            // Ajoutez autant de couleurs que nécessaire
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+</body>
 </html>

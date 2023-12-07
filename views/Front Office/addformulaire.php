@@ -14,7 +14,8 @@ if (
     isset($_POST["ticket"]) &&
     isset($_POST["role"]) &&
     isset($_POST["nome"]) &&
-    isset($_POST["numero"]) 
+    isset($_POST["numero"])
+
 ) {
     if (
         !empty($_POST['nom']) &&
@@ -35,7 +36,7 @@ if (
         );
 
         $formulairef->add($formulaire);
-        //header('Location:listformulaire.php');
+        header('Location:confirmation.php');
     } else {
         $error = "Missing information";
         echo $error; // Ajout de message pour le débogage
@@ -49,6 +50,8 @@ if (
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../model/style.css">
+    <link rel="stylesheet" href="../../model/icofont.css">
     <style>
         body {
             display: flex;
@@ -66,7 +69,22 @@ if (
 </head>
 
 <body>
-    <a href="./listformulaire.php">Back to list </a>
+<header>
+        <a href="#" class="logo"><img src="../../images/logo_2.png" alt=""></a>
+        <div class="menuToggle" onclick="toggleMenu();"></div>
+        <ul class="navbar">
+            <li><a href="#banniere" onclick="toggleMenu();">Home</a></li>
+            <li><a href="#apropos" onclick="toggleMenu();">About</a></li>
+            <li><a href="#menu" onclick="toggleMenu();">Lessons</a></li>
+            <li><a href="event.php">Events</a></li>
+            <li><a href="#expert" onclick="toggleMenu();">Our Art thearpists</a></li>
+            <li><a href="#temoignage" onclick="toggleMenu();">Temoignage</a></li>
+            <li><a href="#contact" onclick="toggleMenu();">Contact</a></li>
+            <li><a href="#donation" onclick="toggleMenu();">Donation</a></li>
+            <li><a href="#signup" onclick="toggleMenu();">signUp</a></li>
+            <a href="#login" class="btn-reserve"onclick="toggleMenu();">Login</a>
+        </ul>
+    </header>
     <hr>
 
     <div id="error">
@@ -117,6 +135,7 @@ if (
         <select name="nome" id="nome">
             <option value="paint">paint</option>
             <option value="draw">draw</option>
+            <option value="danse">danse</option>
         </select>
     </td>
 </tr>
@@ -133,12 +152,10 @@ if (
                 <td>
                     <input type="submit" value="Save">
                 </td>
-                <td>
-                    <input type="reset" value="Reset">
-                </td>
             </tr>
         </table>
     </form>
 </body>
 
-</html>          
+</html>         
+ 

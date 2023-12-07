@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../model/style.css">
     <link rel="stylesheet" href="../../model/icofont.css">
-    <title> Events </title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            margin: 200;
+            background-color: #fff;
+            background-image: url('ra.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <title>Confirmation</title>
 </head>
+
 <body>
     <header>
         <a href="#" class="logo"><img src="../../images/logo_2.png" alt=""></a>
@@ -16,25 +31,19 @@
             <li><a href="#apropos" onclick="toggleMenu();">About</a></li>
             <li><a href="#menu" onclick="toggleMenu();">Lessons</a></li>
             <li><a href="event.php">Events</a></li>
-            <li><a href="#expert" onclick="toggleMenu();">Our Art thearpists</a></li>
+            <li><a href="#expert" onclick="toggleMenu();">Our Art Therapists</a></li>
             <li><a href="#temoignage" onclick="toggleMenu();">Temoignage</a></li>
             <li><a href="#contact" onclick="toggleMenu();">Contact</a></li>
             <li><a href="#donation" onclick="toggleMenu();">Donation</a></li>
             <li><a href="#signup" onclick="toggleMenu();">signUp</a></li>
-            <a href="#login" class="btn-reserve"onclick="toggleMenu();">Login</a>
+            <a href="#login" class="btn-reserve" onclick="toggleMenu();">Login</a>
         </ul>
     </header>
-    
-   <div>
-    <img src="./opening.jpg" >
+
+    <div>
+        <h1>Confirmation</h1>
+        <p>Votre formulaire a été soumis avec succès. Merci pour votre participation !</p>
     </div>
-    <div> <h1><p>Nous sommes ravis de vous inviter à notre tout premier événement sur notre site"Art Therapy" dédié à l'art et à la culture thérapeutiques.
-        Explorez un univers où la créativité rencontre la guérison.
-        Notre site est désormais ouvert 7 jours sur 7 pour vous offrir une expérience inédite.
-         Rejoignez-nous pour célébrer le pouvoir de l'art dans le processus de guérison!</p></h1></div>
-    </div>
-    <h1><a href="./listevent.php">Détails</a></h1>
-    <h1><a href="./calendrier.php">calendrier des événements</a></h1>
-    <h1><a href="../../views/Front Office/addformulaire.php">remplir un formulaire</a></h1>
 </body>
+
 </html>

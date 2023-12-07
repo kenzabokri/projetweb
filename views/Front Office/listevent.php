@@ -60,10 +60,11 @@ body {
             background-position: center; 
         }
     </style>
+    
+    
         <h1>List of events</h1>
 <table border="1" align="center" width="70">
     <tr>
-            <th>ID</th>
             <th>Nom de l'événement</th>
             <th>Date</th>
             <th>Description</th>
@@ -83,7 +84,6 @@ body {
 
 
         <tr>
-        <td><?= $event['idevent']; ?></td>
                 <td><?= $event['nomevent']; ?></td>
                 <td><?= $event['date']; ?></td>
                 <td><?= $event['description']; ?></td>

@@ -58,7 +58,7 @@ if (
       height: 100vh;
       margin: 200;
       background-color: #fff; 
-      background-image: url('./back.jpg'); 
+      background-image: url('ko.png'); 
       background-size: cover; 
       background-position: center; 
     }
@@ -105,9 +105,9 @@ if (
                 </td>
                 <td>
                     <select name="idclasse" id="idclasse">
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
+                        <option value="72">72</option>
+                        <option value="73">73</option>
+                        <option value="74">74</option>
                     </select>
                 </td>
             </tr>

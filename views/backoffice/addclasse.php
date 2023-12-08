@@ -43,14 +43,24 @@ if (
     body {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: right;
       height: 100vh;
-      margin: 200;
+      margin: 50;
       background-color: #fff; 
-      background-image: url('./back.jpg'); 
+      background-image: url('ko.png'); 
       background-size: cover; 
       background-position: center; 
     }
+    form {
+            /* Ajoutez ces styles pour centrer le formulaire */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 200px;
+            border: 8px solid #ccc;
+            background-color: #f9f9f9;
+            background-image: url('ko.png'); 
+        }
 </style>
 </head>
 

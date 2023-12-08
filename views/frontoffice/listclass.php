@@ -28,15 +28,54 @@ $tab = $c->list();
       height: 100vh;
       margin: 200;
       background-color: #fff; 
-      background-image: url('./back.jpg'); 
+      background-image: url('./back.png'); 
       background-size: cover; 
       background-position: center; 
     }
 </style>
+<style>
+ 
+ table {
+  width: 100%;
+  max-width: 800px; /* Exemple de largeur maximale du tableau */
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+    /* Style pour la première ligne du tableau (en-têtes) */
+table tr:first-child {
+  background-color: #f2f2f2; /* Couleur différente pour la première ligne */
+}
+
+/* Style pour les lignes autres que la première */
+table tr:not(:first-child) {
+  background-color: #ffffff; /* Couleur pour les autres lignes */
+}
+
+  </style>
 </head>
 <body>
 <header>
-        <a href="#" class="logo"><img src="../../images/logo_2.png" alt=""></a>
+        <a href="#" class="logo"><img src="logo.png" alt=""></a>
         <div class="menuToggle" onclick="toggleMenu();"></div>
         <ul class="navbar">
             <li><a href="#banniere" onclick="toggleMenu();">Home</a></li>
@@ -47,7 +86,7 @@ $tab = $c->list();
             <li><a href="#temoignage" onclick="toggleMenu();">Temoignage</a></li>
             <li><a href="#contact" onclick="toggleMenu();">Contact</a></li>
             <li><a href="#donation" onclick="toggleMenu();">Donation</a></li>
-            <li><a href="#signup" onclick="toggleMenu();">signUp</a></li>
+            <li><a href="showemploi.php" onclick="toggleMenu();">Votre emploi</a></li>
             <a href="#login" class="btn-reserve"onclick="toggleMenu();">Login</a>
         </ul>
     </header>

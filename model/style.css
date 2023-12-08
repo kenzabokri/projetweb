@@ -618,3 +618,42 @@ img {
     background-image: url("../images/signupB.png");
   }
   
+  
+    /* Vos styles personnalisés pour le tableau */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+  
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+  
+      th {
+        background-color: #f2f2f2;
+        color: #333;
+      }
+  
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+  
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+      /* Style pour la première ligne du tableau (en-têtes) */
+      table tr:first-child {
+        background-color: #f2f2f2; /* Couleur différente pour la première ligne */
+      }
+      
+      /* Style pour les lignes autres que la première */
+      table tr:not(:first-child) {
+        background-color: #ffffff; /* Couleur pour les autres lignes */
+      }
+  
+   
+  

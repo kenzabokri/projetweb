@@ -18,7 +18,6 @@ $tab = $c->list();
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="../../model/style2.css">
-
 </head>
 <body>
 <!-- partial:index.partial.html -->

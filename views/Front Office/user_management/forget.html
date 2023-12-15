@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../../assets/style1.css">
+    <title>Ludiflex | Login & Registration</title>
+</head>
+<body>
+ <div class="wrapper">
+    <nav class="nav">
+        <div class="translate" id="google_translate_element"></div>
+
+        <script type="text/javascript">
+            function googleTranslateElementInit() {  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');}
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <div class="nav-logo">
+            <p><img src="../../images/logo_2.png" height="70px" width="70px"></p>
+        </div>
+        <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+
+<!----------------------------- Form box ----------------------------------->    
+    <div class="form-box">
+        
+        <!------------------- login form -------------------------->
+
+        <div class="login-container" id="login">
+            <form action="./forget.php" method="POST">
+                <div class="input-box">
+                    <input type="text" class="input-field" placeholder="Email" name="email">
+                    <i class="bx bx-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="submit" class="submit" value="confirm">
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>   
+
+
+
+
+
+</body>
+</html>
